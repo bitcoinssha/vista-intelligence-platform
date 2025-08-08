@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>VISTA — Vision Intelligence Security & Technology Analysis</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+<header>
+    <img src="logo.png" alt="VISTA Logo" class="logo">
+    <h1>VISTA — Vision Intelligence Security & Technology Analysis</h1>
+</header>
+
+<main>
+    <section class="form-section">
+        <h2>Criminal Background Information Request</h2>
+        <form id="requestForm">
+            <label for="case-number">Case Number:</label>
+            <input type="text" id="case-number" name="case-number" required>
+
+            <label for="request-type">Request Type:</label>
+            <select id="request-type" name="request-type">
+                <option value="criminal-background">Criminal Background</option>
+                <option value="financial-records">Financial Records</option>
+                <option value="other">Other</option>
+            </select>
+
+            <label for="priority">Priority:</label>
+            <select id="priority" name="priority">
+                <option value="high">High</option>
+                <option value="medium">Medium</option>
+                <option value="low">Low</option>
+            </select>
+
+            <label for="subject-name">Subject Name:</label>
+            <input type="text" id="subject-name" name="subject-name" required>
+
+            <label for="subject-id">Subject ID / Passport:</label>
+            <input type="text" id="subject-id" name="subject-id" required>
+
+            <label for="justification">Legal/Operational Justification:</label>
+            <textarea id="justification" name="justification" rows="4" required></textarea>
+
+            <button type="submit">Submit Request</button>
+        </form>
+    </section>
+</main>
+
+<script src="script.js"></script>
+</body>
+</html>
