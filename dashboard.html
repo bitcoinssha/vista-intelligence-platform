@@ -1,0 +1,627 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dashboard — MOLE INTEL IA</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body class="dashboard-body">
+    <div class="stars"></div>
+    <div class="twinkling"></div>
+
+    <aside class="sidebar">
+        <div class="sidebar-header">
+            <div class="logo-text-small">MOLE INTEL<span class="ia-text">IA</span></div>
+        </div>
+        <nav class="sidebar-nav">
+            <a href="#overview" class="nav-item active" data-section="overview">
+                <span class="nav-icon">📊</span>
+                <span>Overview</span>
+            </a>
+            <a href="#network" class="nav-item" data-section="network">
+                <span class="nav-icon">🔗</span>
+                <span>Análisis de Redes</span>
+            </a>
+            <a href="#data" class="nav-item" data-section="data">
+                <span class="nav-icon">💾</span>
+                <span>Procesamiento de Datos</span>
+            </a>
+            <a href="#predictive" class="nav-item" data-section="predictive">
+                <span class="nav-icon">🎯</span>
+                <span>Inteligencia Predictiva</span>
+            </a>
+            <a href="#reports" class="nav-item" data-section="reports">
+                <span class="nav-icon">📝</span>
+                <span>Reportes</span>
+            </a>
+            <a href="#alerts" class="nav-item" data-section="alerts">
+                <span class="nav-icon">🚨</span>
+                <span>Alertas</span>
+            </a>
+        </nav>
+        <div class="sidebar-footer">
+            <a href="index.html" class="btn-back">← Inicio</a>
+        </div>
+    </aside>
+
+    <main class="dashboard-main">
+        <header class="dashboard-header">
+            <div class="header-left">
+                <h1 id="section-title">Dashboard Overview</h1>
+                <p class="header-subtitle">Análisis en tiempo real</p>
+            </div>
+            <div class="header-right">
+                <div class="status-indicator">
+                    <span class="status-dot"></span>
+                    <span>Sistema Activo</span>
+                </div>
+                <div class="current-time" id="currentTime"></div>
+            </div>
+        </header>
+
+        <!-- OVERVIEW SECTION -->
+        <section id="overview" class="dashboard-section active">
+            <div class="metrics-grid">
+                <div class="metric-card">
+                    <div class="metric-header">
+                        <span class="metric-icon">🔍</span>
+                        <span class="metric-trend positive">+12%</span>
+                    </div>
+                    <div class="metric-value" id="activeAnalysis">0</div>
+                    <div class="metric-label">Análisis Activos</div>
+                </div>
+                <div class="metric-card">
+                    <div class="metric-header">
+                        <span class="metric-icon">📡</span>
+                        <span class="metric-trend positive">+8%</span>
+                    </div>
+                    <div class="metric-value" id="dataProcessed">0</div>
+                    <div class="metric-label">Datos Procesados (TB)</div>
+                </div>
+                <div class="metric-card">
+                    <div class="metric-header">
+                        <span class="metric-icon">⚠️</span>
+                        <span class="metric-trend neutral">0</span>
+                    </div>
+                    <div class="metric-value" id="alerts">0</div>
+                    <div class="metric-label">Alertas Críticas</div>
+                </div>
+                <div class="metric-card">
+                    <div class="metric-header">
+                        <span class="metric-icon">✓</span>
+                        <span class="metric-trend positive">+25%</span>
+                    </div>
+                    <div class="metric-value">99.9%</div>
+                    <div class="metric-label">Precisión del Sistema</div>
+                </div>
+            </div>
+
+            <div class="dashboard-grid">
+                <div class="panel large">
+                    <div class="panel-header">
+                        <h3>Actividad en Tiempo Real</h3>
+                        <button class="btn-icon">⟳</button>
+                    </div>
+                    <div class="chart-container">
+                        <canvas id="activityChart"></canvas>
+                    </div>
+                </div>
+
+                <div class="panel">
+                    <div class="panel-header">
+                        <h3>Distribución de Análisis</h3>
+                    </div>
+                    <div class="chart-container">
+                        <canvas id="distributionChart"></canvas>
+                    </div>
+                </div>
+
+                <div class="panel">
+                    <div class="panel-header">
+                        <h3>Eventos Recientes</h3>
+                    </div>
+                    <div class="events-list" id="eventsList">
+                        <!-- Events will be populated by JS -->
+                    </div>
+                </div>
+
+                <div class="panel">
+                    <div class="panel-header">
+                        <h3>Estado del Sistema</h3>
+                    </div>
+                    <div class="system-status">
+                        <div class="status-item">
+                            <span class="status-label">CPU</span>
+                            <div class="progress-bar">
+                                <div class="progress-fill" style="width: 45%"></div>
+                            </div>
+                            <span class="status-value">45%</span>
+                        </div>
+                        <div class="status-item">
+                            <span class="status-label">Memoria</span>
+                            <div class="progress-bar">
+                                <div class="progress-fill" style="width: 62%"></div>
+                            </div>
+                            <span class="status-value">62%</span>
+                        </div>
+                        <div class="status-item">
+                            <span class="status-label">Red</span>
+                            <div class="progress-bar">
+                                <div class="progress-fill" style="width: 78%"></div>
+                            </div>
+                            <span class="status-value">78%</span>
+                        </div>
+                        <div class="status-item">
+                            <span class="status-label">Almacenamiento</span>
+                            <div class="progress-bar">
+                                <div class="progress-fill" style="width: 34%"></div>
+                            </div>
+                            <span class="status-value">34%</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- NETWORK ANALYSIS SECTION -->
+        <section id="network" class="dashboard-section">
+            <div class="dashboard-grid">
+                <div class="panel xlarge">
+                    <div class="panel-header">
+                        <h3>Mapa de Redes y Conexiones</h3>
+                        <div class="panel-controls">
+                            <button class="btn-small">Filtrar</button>
+                            <button class="btn-small">Exportar</button>
+                        </div>
+                    </div>
+                    <div class="network-map" id="networkMap">
+                        <svg width="100%" height="100%" id="networkSvg">
+                            <!-- Network visualization will be rendered here -->
+                        </svg>
+                    </div>
+                </div>
+
+                <div class="panel">
+                    <div class="panel-header">
+                        <h3>Nodos Principales</h3>
+                    </div>
+                    <div class="nodes-list">
+                        <div class="node-item high">
+                            <div class="node-indicator"></div>
+                            <div class="node-info">
+                                <div class="node-name">Entidad Alpha-7</div>
+                                <div class="node-connections">284 conexiones</div>
+                            </div>
+                            <div class="node-risk">Alto</div>
+                        </div>
+                        <div class="node-item medium">
+                            <div class="node-indicator"></div>
+                            <div class="node-info">
+                                <div class="node-name">Corporación Beta-3</div>
+                                <div class="node-connections">156 conexiones</div>
+                            </div>
+                            <div class="node-risk">Medio</div>
+                        </div>
+                        <div class="node-item low">
+                            <div class="node-indicator"></div>
+                            <div class="node-info">
+                                <div class="node-name">Grupo Delta-9</div>
+                                <div class="node-connections">89 conexiones</div>
+                            </div>
+                            <div class="node-risk">Bajo</div>
+                        </div>
+                        <div class="node-item medium">
+                            <div class="node-indicator"></div>
+                            <div class="node-info">
+                                <div class="node-name">Red Gamma-12</div>
+                                <div class="node-connections">127 conexiones</div>
+                            </div>
+                            <div class="node-risk">Medio</div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="panel">
+                    <div class="panel-header">
+                        <h3>Patrones Detectados</h3>
+                    </div>
+                    <div class="patterns-list">
+                        <div class="pattern-item">
+                            <span class="pattern-type">Cluster</span>
+                            <span class="pattern-name">Patrón financiero recurrente</span>
+                            <span class="pattern-confidence">97%</span>
+                        </div>
+                        <div class="pattern-item">
+                            <span class="pattern-type">Anomalía</span>
+                            <span class="pattern-name">Comportamiento inusual detectado</span>
+                            <span class="pattern-confidence">89%</span>
+                        </div>
+                        <div class="pattern-item">
+                            <span class="pattern-type">Relación</span>
+                            <span class="pattern-name">Nuevas conexiones emergentes</span>
+                            <span class="pattern-confidence">94%</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- DATA PROCESSING SECTION -->
+        <section id="data" class="dashboard-section">
+            <div class="dashboard-grid">
+                <div class="panel large">
+                    <div class="panel-header">
+                        <h3>Pipeline de Procesamiento</h3>
+                    </div>
+                    <div class="pipeline-container">
+                        <div class="pipeline-stage">
+                            <div class="stage-icon">📥</div>
+                            <div class="stage-name">Ingesta</div>
+                            <div class="stage-status active">Activo</div>
+                            <div class="stage-count">1,245 docs/min</div>
+                        </div>
+                        <div class="pipeline-arrow">→</div>
+                        <div class="pipeline-stage">
+                            <div class="stage-icon">🔄</div>
+                            <div class="stage-name">Procesamiento</div>
+                            <div class="stage-status active">Activo</div>
+                            <div class="stage-count">987 docs/min</div>
+                        </div>
+                        <div class="pipeline-arrow">→</div>
+                        <div class="pipeline-stage">
+                            <div class="stage-icon">🧠</div>
+                            <div class="stage-name">Análisis IA</div>
+                            <div class="stage-status active">Activo</div>
+                            <div class="stage-count">834 docs/min</div>
+                        </div>
+                        <div class="pipeline-arrow">→</div>
+                        <div class="pipeline-stage">
+                            <div class="stage-icon">💾</div>
+                            <div class="stage-name">Almacenamiento</div>
+                            <div class="stage-status active">Activo</div>
+                            <div class="stage-count">1,089 docs/min</div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="panel">
+                    <div class="panel-header">
+                        <h3>Fuentes de Datos</h3>
+                    </div>
+                    <div class="sources-list">
+                        <div class="source-item">
+                            <span class="source-icon">📄</span>
+                            <div class="source-info">
+                                <div class="source-name">Documentos</div>
+                                <div class="source-count">45,782 procesados</div>
+                            </div>
+                        </div>
+                        <div class="source-item">
+                            <span class="source-icon">🖼️</span>
+                            <div class="source-info">
+                                <div class="source-name">Imágenes</div>
+                                <div class="source-count">12,394 procesadas</div>
+                            </div>
+                        </div>
+                        <div class="source-item">
+                            <span class="source-icon">🗃️</span>
+                            <div class="source-info">
+                                <div class="source-name">Bases de Datos</div>
+                                <div class="source-count">234 conectadas</div>
+                            </div>
+                        </div>
+                        <div class="source-item">
+                            <span class="source-icon">🌐</span>
+                            <div class="source-info">
+                                <div class="source-name">APIs Externas</div>
+                                <div class="source-count">67 activas</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="panel large">
+                    <div class="panel-header">
+                        <h3>Volumen de Datos Procesados</h3>
+                    </div>
+                    <div class="chart-container">
+                        <canvas id="dataVolumeChart"></canvas>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- PREDICTIVE INTELLIGENCE SECTION -->
+        <section id="predictive" class="dashboard-section">
+            <div class="dashboard-grid">
+                <div class="panel large">
+                    <div class="panel-header">
+                        <h3>Modelos Predictivos Activos</h3>
+                    </div>
+                    <div class="models-grid">
+                        <div class="model-card">
+                            <div class="model-header">
+                                <span class="model-name">Predicción de Riesgo</span>
+                                <span class="model-status active">Activo</span>
+                            </div>
+                            <div class="model-accuracy">
+                                <span>Precisión:</span>
+                                <span class="accuracy-value">98.7%</span>
+                            </div>
+                            <div class="model-runs">Últimas 24h: 1,248 predicciones</div>
+                        </div>
+                        <div class="model-card">
+                            <div class="model-header">
+                                <span class="model-name">Detección de Anomalías</span>
+                                <span class="model-status active">Activo</span>
+                            </div>
+                            <div class="model-accuracy">
+                                <span>Precisión:</span>
+                                <span class="accuracy-value">96.3%</span>
+                            </div>
+                            <div class="model-runs">Últimas 24h: 3,467 análisis</div>
+                        </div>
+                        <div class="model-card">
+                            <div class="model-header">
+                                <span class="model-name">Análisis de Comportamiento</span>
+                                <span class="model-status active">Activo</span>
+                            </div>
+                            <div class="model-accuracy">
+                                <span>Precisión:</span>
+                                <span class="accuracy-value">94.1%</span>
+                            </div>
+                            <div class="model-runs">Últimas 24h: 892 perfiles</div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="panel">
+                    <div class="panel-header">
+                        <h3>Alertas Predictivas</h3>
+                    </div>
+                    <div class="predictive-alerts">
+                        <div class="alert-item critical">
+                            <div class="alert-severity">Crítico</div>
+                            <div class="alert-message">Patrón de alto riesgo detectado en sector financiero</div>
+                            <div class="alert-confidence">Confianza: 97%</div>
+                        </div>
+                        <div class="alert-item warning">
+                            <div class="alert-severity">Advertencia</div>
+                            <div class="alert-message">Anomalía en comportamiento de red</div>
+                            <div class="alert-confidence">Confianza: 89%</div>
+                        </div>
+                        <div class="alert-item info">
+                            <div class="alert-severity">Info</div>
+                            <div class="alert-message">Nuevo patrón emergente identificado</div>
+                            <div class="alert-confidence">Confianza: 85%</div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="panel large">
+                    <div class="panel-header">
+                        <h3>Tendencias Predictivas</h3>
+                    </div>
+                    <div class="chart-container">
+                        <canvas id="predictiveChart"></canvas>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- REPORTS SECTION -->
+        <section id="reports" class="dashboard-section">
+            <div class="dashboard-grid">
+                <div class="panel large">
+                    <div class="panel-header">
+                        <h3>Generar Nuevo Reporte</h3>
+                    </div>
+                    <form class="report-form" id="reportForm">
+                        <div class="form-group">
+                            <label for="reportType">Tipo de Reporte</label>
+                            <select id="reportType" required>
+                                <option value="">Seleccionar tipo...</option>
+                                <option value="executive">Ejecutivo</option>
+                                <option value="technical">Técnico</option>
+                                <option value="network">Análisis de Redes</option>
+                                <option value="predictive">Inteligencia Predictiva</option>
+                                <option value="comprehensive">Comprensivo</option>
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label for="reportPeriod">Período</label>
+                            <select id="reportPeriod" required>
+                                <option value="">Seleccionar período...</option>
+                                <option value="24h">Últimas 24 horas</option>
+                                <option value="7d">Últimos 7 días</option>
+                                <option value="30d">Últimos 30 días</option>
+                                <option value="custom">Personalizado</option>
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label for="reportFormat">Formato</label>
+                            <select id="reportFormat" required>
+                                <option value="">Seleccionar formato...</option>
+                                <option value="pdf">PDF</option>
+                                <option value="word">Word (DOCX)</option>
+                                <option value="html">HTML</option>
+                                <option value="json">JSON</option>
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label for="reportName">Nombre del Reporte</label>
+                            <input type="text" id="reportName" placeholder="Ej: Análisis Mensual Enero 2026" required>
+                        </div>
+                        <button type="submit" class="btn-primary">Generar Reporte</button>
+                    </form>
+                </div>
+
+                <div class="panel">
+                    <div class="panel-header">
+                        <h3>Reportes Recientes</h3>
+                    </div>
+                    <div class="reports-list">
+                        <div class="report-item">
+                            <div class="report-icon">📄</div>
+                            <div class="report-info">
+                                <div class="report-name">Análisis Ejecutivo Q1 2026</div>
+                                <div class="report-date">12/02/2026 14:32</div>
+                            </div>
+                            <button class="btn-download">↓</button>
+                        </div>
+                        <div class="report-item">
+                            <div class="report-icon">📄</div>
+                            <div class="report-info">
+                                <div class="report-name">Reporte Técnico Redes</div>
+                                <div class="report-date">11/02/2026 09:15</div>
+                            </div>
+                            <button class="btn-download">↓</button>
+                        </div>
+                        <div class="report-item">
+                            <div class="report-icon">📄</div>
+                            <div class="report-info">
+                                <div class="report-name">Inteligencia Predictiva Semanal</div>
+                                <div class="report-date">08/02/2026 16:45</div>
+                            </div>
+                            <button class="btn-download">↓</button>
+                        </div>
+                        <div class="report-item">
+                            <div class="report-icon">📄</div>
+                            <div class="report-info">
+                                <div class="report-name">Comprensivo Enero 2026</div>
+                                <div class="report-date">31/01/2026 23:59</div>
+                            </div>
+                            <button class="btn-download">↓</button>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="panel">
+                    <div class="panel-header">
+                        <h3>Estadísticas de Reportes</h3>
+                    </div>
+                    <div class="report-stats">
+                        <div class="stat-row">
+                            <span>Total Generados (mes)</span>
+                            <span class="stat-value">127</span>
+                        </div>
+                        <div class="stat-row">
+                            <span>Promedio Diario</span>
+                            <span class="stat-value">4.2</span>
+                        </div>
+                        <div class="stat-row">
+                            <span>Más Generado</span>
+                            <span class="stat-value">Técnico</span>
+                        </div>
+                        <div class="stat-row">
+                            <span>Tiempo Promedio</span>
+                            <span class="stat-value">2.3 min</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- ALERTS SECTION -->
+        <section id="alerts" class="dashboard-section">
+            <div class="dashboard-grid">
+                <div class="panel xlarge">
+                    <div class="panel-header">
+                        <h3>Centro de Alertas</h3>
+                        <div class="alert-filters">
+                            <button class="filter-btn active" data-filter="all">Todas</button>
+                            <button class="filter-btn" data-filter="critical">Críticas</button>
+                            <button class="filter-btn" data-filter="warning">Advertencias</button>
+                            <button class="filter-btn" data-filter="info">Informativas</button>
+                        </div>
+                    </div>
+                    <div class="alerts-timeline">
+                        <div class="timeline-item critical">
+                            <div class="timeline-marker"></div>
+                            <div class="timeline-content">
+                                <div class="timeline-header">
+                                    <span class="timeline-severity">CRÍTICO</span>
+                                    <span class="timeline-time">Hace 5 min</span>
+                                </div>
+                                <div class="timeline-message">Intento de acceso no autorizado detectado desde IP 192.168.45.23</div>
+                                <div class="timeline-actions">
+                                    <button class="btn-small">Investigar</button>
+                                    <button class="btn-small">Descartar</button>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="timeline-item warning">
+                            <div class="timeline-marker"></div>
+                            <div class="timeline-content">
+                                <div class="timeline-header">
+                                    <span class="timeline-severity">ADVERTENCIA</span>
+                                    <span class="timeline-time">Hace 23 min</span>
+                                </div>
+                                <div class="timeline-message">Uso de CPU superior al 80% en módulo de análisis predictivo</div>
+                                <div class="timeline-actions">
+                                    <button class="btn-small">Ver detalles</button>
+                                    <button class="btn-small">Resolver</button>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="timeline-item info">
+                            <div class="timeline-marker"></div>
+                            <div class="timeline-content">
+                                <div class="timeline-header">
+                                    <span class="timeline-severity">INFO</span>
+                                    <span class="timeline-time">Hace 1 hora</span>
+                                </div>
+                                <div class="timeline-message">Actualización de base de datos completada exitosamente (2.3 TB procesados)</div>
+                                <div class="timeline-actions">
+                                    <button class="btn-small">Detalles</button>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="timeline-item warning">
+                            <div class="timeline-marker"></div>
+                            <div class="timeline-content">
+                                <div class="timeline-header">
+                                    <span class="timeline-severity">ADVERTENCIA</span>
+                                    <span class="timeline-time">Hace 2 horas</span>
+                                </div>
+                                <div class="timeline-message">Patrón anómalo detectado en transacciones financieras - Sector: Tecnología</div>
+                                <div class="timeline-actions">
+                                    <button class="btn-small">Analizar</button>
+                                    <button class="btn-small">Crear reporte</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="panel">
+                    <div class="panel-header">
+                        <h3>Resumen de Alertas</h3>
+                    </div>
+                    <div class="alerts-summary">
+                        <div class="summary-item critical-bg">
+                            <div class="summary-count">3</div>
+                            <div class="summary-label">Críticas</div>
+                        </div>
+                        <div class="summary-item warning-bg">
+                            <div class="summary-count">12</div>
+                            <div class="summary-label">Advertencias</div>
+                        </div>
+                        <div class="summary-item info-bg">
+                            <div class="summary-count">47</div>
+                            <div class="summary-label">Informativas</div>
+                        </div>
+                        <div class="summary-item resolved-bg">
+                            <div class="summary-count">234</div>
+                            <div class="summary-label">Resueltas (24h)</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <script src="script.js"></script>
+</body>
+</html>

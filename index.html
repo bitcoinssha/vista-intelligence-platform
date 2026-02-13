@@ -1,53 +1,164 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="es">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>VISTA — Vision Intelligence Security & Technology Analysis</title>
+    <title>MOLE INTEL IA — Inteligencia Artificial Avanzada para Análisis Estratégico</title>
     <link rel="stylesheet" href="style.css">
 </head>
 <body>
+    <div class="stars"></div>
+    <div class="twinkling"></div>
 
-<header>
-    <img src="logo.png" alt="VISTA Logo" class="logo">
-    <h1>VISTA — Vision Intelligence Security & Technology Analysis</h1>
-</header>
+    <header class="main-header">
+        <nav class="navbar">
+            <div class="logo-container">
+                <div class="logo-text">MOLE INTEL<span class="ia-text">IA</span></div>
+            </div>
+            <ul class="nav-menu">
+                <li><a href="#inicio">Inicio</a></li>
+                <li><a href="#funciones">Funciones</a></li>
+                <li><a href="#caracteristicas">Características</a></li>
+                <li><a href="dashboard.html" class="btn-dashboard">Dashboard</a></li>
+            </ul>
+        </nav>
+    </header>
 
-<main>
-    <section class="form-section">
-        <h2>Criminal Background Information Request</h2>
-        <form id="requestForm">
-            <label for="case-number">Case Number:</label>
-            <input type="text" id="case-number" name="case-number" required>
-
-            <label for="request-type">Request Type:</label>
-            <select id="request-type" name="request-type">
-                <option value="criminal-background">Criminal Background</option>
-                <option value="financial-records">Financial Records</option>
-                <option value="other">Other</option>
-            </select>
-
-            <label for="priority">Priority:</label>
-            <select id="priority" name="priority">
-                <option value="high">High</option>
-                <option value="medium">Medium</option>
-                <option value="low">Low</option>
-            </select>
-
-            <label for="subject-name">Subject Name:</label>
-            <input type="text" id="subject-name" name="subject-name" required>
-
-            <label for="subject-id">Subject ID / Passport:</label>
-            <input type="text" id="subject-id" name="subject-id" required>
-
-            <label for="justification">Legal/Operational Justification:</label>
-            <textarea id="justification" name="justification" rows="4" required></textarea>
-
-            <button type="submit">Submit Request</button>
-        </form>
+    <section id="inicio" class="hero-section">
+        <div class="hero-content">
+            <h1 class="hero-title">
+                MOLE INTEL<span class="gradient-text">IA</span>
+            </h1>
+            <p class="hero-subtitle">Inteligencia Artificial Avanzada para Análisis Estratégico</p>
+            <p class="hero-description">
+                Convierte datos dispersos en inteligencia estructurada y accionable mediante
+                algoritmos de aprendizaje automático y análisis relacional avanzado.
+            </p>
+            <div class="hero-buttons">
+                <a href="dashboard.html" class="btn-primary">Acceder al Dashboard</a>
+                <a href="#funciones" class="btn-secondary">Conocer Más</a>
+            </div>
+        </div>
+        <div class="hero-visual">
+            <div class="neural-network"></div>
+        </div>
     </section>
-</main>
 
-<script src="script.js"></script>
+    <section id="funciones" class="features-section">
+        <h2 class="section-title">¿Qué hace <span class="gradient-text">MOLE INTEL IA</span>?</h2>
+
+        <div class="features-grid">
+            <div class="feature-card">
+                <div class="feature-icon">🔗</div>
+                <h3>Análisis de Redes</h3>
+                <p>Detecta conexiones entre personas, empresas, eventos y activos. Construye mapas relacionales dinámicos e identifica nodos clave y patrones de influencia.</p>
+                <ul class="feature-list">
+                    <li>Mapas relacionales dinámicos</li>
+                    <li>Identificación de nodos clave</li>
+                    <li>Patrones de influencia</li>
+                </ul>
+            </div>
+
+            <div class="feature-card">
+                <div class="feature-icon">📊</div>
+                <h3>Procesamiento de Datos Multifuente</h3>
+                <p>Integra datos estructurados y no estructurados. Analiza documentos, imágenes, metadatos y registros cruzando información automáticamente.</p>
+                <ul class="feature-list">
+                    <li>Integración multifuente</li>
+                    <li>Análisis de documentos e imágenes</li>
+                    <li>Cruce automático de información</li>
+                </ul>
+            </div>
+
+            <div class="feature-card">
+                <div class="feature-icon">🎯</div>
+                <h3>Inteligencia Predictiva</h3>
+                <p>Modelos avanzados de comportamiento, detección de anomalías y evaluación de riesgos en tiempo real.</p>
+                <ul class="feature-list">
+                    <li>Modelos de comportamiento</li>
+                    <li>Detección de anomalías</li>
+                    <li>Evaluación de riesgos</li>
+                </ul>
+            </div>
+
+            <div class="feature-card">
+                <div class="feature-icon">📈</div>
+                <h3>Dashboard Estratégico</h3>
+                <p>Visualización en tiempo real con mapas geoespaciales, gráficos dinámicos e indicadores de alerta.</p>
+                <ul class="feature-list">
+                    <li>Visualización en tiempo real</li>
+                    <li>Mapas geoespaciales</li>
+                    <li>Indicadores de alerta</li>
+                </ul>
+            </div>
+
+            <div class="feature-card">
+                <div class="feature-icon">📝</div>
+                <h3>Generación de Informes Automatizados</h3>
+                <p>Reportes ejecutivos y técnicos con exportación en PDF/Word y resúmenes estratégicos generados por IA.</p>
+                <ul class="feature-list">
+                    <li>Reportes ejecutivos</li>
+                    <li>Exportación PDF/Word</li>
+                    <li>Resúmenes generados por IA</li>
+                </ul>
+            </div>
+
+            <div class="feature-card">
+                <div class="feature-icon">🧠</div>
+                <h3>IA Avanzada</h3>
+                <p>Procesamiento masivo de datos con algoritmos de última generación para toma de decisiones basada en IA.</p>
+                <ul class="feature-list">
+                    <li>Procesamiento masivo</li>
+                    <li>Algoritmos avanzados</li>
+                    <li>Toma de decisiones IA</li>
+                </ul>
+            </div>
+        </div>
+    </section>
+
+    <section id="caracteristicas" class="stats-section">
+        <h2 class="section-title">Potencia y <span class="gradient-text">Precisión</span></h2>
+        <div class="stats-grid">
+            <div class="stat-card">
+                <div class="stat-number" data-target="99.9">0</div>
+                <div class="stat-label">% Precisión</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-number" data-target="1000000">0</div>
+                <div class="stat-label">+ Datos Procesados/seg</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-number" data-target="24">0</div>
+                <div class="stat-label">/7 Disponibilidad</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-number" data-target="128">0</div>
+                <div class="stat-label">-bit Encriptación</div>
+            </div>
+        </div>
+    </section>
+
+    <section class="cta-section">
+        <div class="cta-content">
+            <h2>¿Listo para transformar datos en inteligencia?</h2>
+            <p>Accede al Dashboard y comienza a analizar información estratégica ahora mismo.</p>
+            <a href="dashboard.html" class="btn-primary btn-large">Acceder al Dashboard</a>
+        </div>
+    </section>
+
+    <footer class="main-footer">
+        <div class="footer-content">
+            <div class="footer-logo">
+                <div class="logo-text">MOLE INTEL<span class="ia-text">IA</span></div>
+                <p>Inteligencia Artificial para Análisis Estratégico</p>
+            </div>
+            <div class="footer-info">
+                <p>&copy; 2026 Mole Intel IA. Plataforma segura de inteligencia avanzada.</p>
+                <p>Datos. Patrones. Precisión. Inteligencia Evolucionada.</p>
+            </div>
+        </div>
+    </footer>
+
+    <script src="script.js"></script>
 </body>
 </html>
