@@ -1,53 +1,637 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>VISTA — Vision Intelligence Security & Technology Analysis</title>
-    <link rel="stylesheet" href="style.css">
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<meta name="theme-color" content="#0a0b0f">
+<title>NexPay Wallet</title>
+<link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;600;700;800&family=DM+Mono:wght@300;400;500&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --bg: #0a0b0f;
+    --surface: #12141a;
+    --surface2: #1a1d26;
+    --border: #252836;
+    --accent: #00e5a0;
+    --accent2: #2979ff;
+    --warn: #ff6b35;
+    --text: #e8eaf0;
+    --muted: #5a5f7a;
+    --usdt: #26a17b;
+    --usdc: #2775ca;
+  }
+  * { margin:0; padding:0; box-sizing:border-box; -webkit-tap-highlight-color: transparent; }
+  html, body {
+    background: var(--bg);
+    font-family: 'Syne', sans-serif;
+    color: var(--text);
+    min-height: 100vh;
+    width: 100%;
+    overflow-x: hidden;
+  }
+  body { padding-bottom: 90px; }
+
+  /* ── TICKER ── */
+  .ticker-wrap {
+    background: var(--surface2);
+    border-bottom: 1px solid var(--border);
+    overflow: hidden;
+    height: 32px;
+    display: flex; align-items: center;
+  }
+  .ticker-track {
+    display: flex;
+    animation: ticker 28s linear infinite;
+    white-space: nowrap;
+  }
+  .ticker-item {
+    font-family: 'DM Mono', monospace;
+    font-size: 11px;
+    padding: 0 24px;
+    color: var(--muted);
+    display: flex; align-items: center; gap: 6px;
+  }
+  .ticker-item .up { color: var(--accent); }
+  .ticker-item .dn { color: var(--warn); }
+  @keyframes ticker {
+    0% { transform: translateX(0); }
+    100% { transform: translateX(-50%); }
+  }
+
+  /* ── HEADER ── */
+  .header {
+    padding: 16px 20px 12px;
+    display: flex; justify-content: space-between; align-items: center;
+  }
+  .logo { font-size: 20px; font-weight: 800; letter-spacing: -0.03em; }
+  .logo span { color: var(--accent); }
+  .header-right { display: flex; align-items: center; gap: 12px; }
+  .live-dot {
+    display: flex; align-items: center; gap: 5px;
+    font-family: 'DM Mono', monospace; font-size: 10px; color: var(--accent);
+  }
+  .dot {
+    width: 7px; height: 7px; border-radius: 50%;
+    background: var(--accent);
+    animation: pulse 2s ease-in-out infinite;
+  }
+  @keyframes pulse {
+    0%,100% { opacity:1; transform:scale(1); }
+    50% { opacity:0.4; transform:scale(0.8); }
+  }
+  .avatar {
+    width: 36px; height: 36px; border-radius: 50%;
+    background: linear-gradient(135deg, #2979ff, #00e5a0);
+    display: flex; align-items: center; justify-content: center;
+    font-size: 13px; font-weight: 700;
+  }
+
+  /* ── HERO CARD ── */
+  .hero-card {
+    margin: 0 16px 20px;
+    background: linear-gradient(135deg, #1a2040 0%, #0d1525 50%, #0a1520 100%);
+    border: 1px solid #253060;
+    border-radius: 24px;
+    padding: 24px 24px 20px;
+    position: relative; overflow: hidden;
+  }
+  .hero-card::before {
+    content:''; position:absolute; top:-60px; right:-60px;
+    width:200px; height:200px;
+    background: radial-gradient(circle, rgba(0,229,160,0.13) 0%, transparent 70%);
+  }
+  .hero-card::after {
+    content:''; position:absolute; bottom:-40px; left:-40px;
+    width:180px; height:180px;
+    background: radial-gradient(circle, rgba(41,121,255,0.1) 0%, transparent 70%);
+  }
+  .card-label {
+    font-size: 10px; text-transform: uppercase; letter-spacing: 0.15em;
+    color: var(--muted); margin-bottom: 8px;
+    font-family: 'DM Mono', monospace;
+  }
+  .card-balance {
+    font-size: 40px; font-weight: 800; letter-spacing: -0.04em;
+    line-height: 1; margin-bottom: 4px;
+  }
+  .card-balance .cents { font-size: 24px; opacity: 0.7; }
+  .card-change {
+    font-size: 12px; color: var(--accent);
+    font-family: 'DM Mono', monospace; margin-bottom: 22px;
+  }
+  .card-address {
+    font-family: 'DM Mono', monospace; font-size: 10px; color: var(--muted);
+    background: rgba(255,255,255,0.04); border: 1px solid var(--border);
+    border-radius: 8px; padding: 8px 12px; letter-spacing: 0.04em;
+    display: flex; flex-direction: column; gap: 4px;
+  }
+  .card-address .addr-row { display: flex; gap: 6px; }
+  .card-address .lbl { color: var(--accent); flex-shrink: 0; }
+
+  /* ── LIVE PRICE ROW ── */
+  .price-row {
+    display: flex; gap: 8px; padding: 0 16px 20px;
+  }
+  .price-card {
+    flex: 1;
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 14px;
+    padding: 12px 14px;
+  }
+  .price-token { font-size: 11px; font-weight: 700; margin-bottom: 4px; display: flex; align-items: center; gap: 6px; }
+  .price-token .dot-usdt { width:8px;height:8px;border-radius:50%;background:var(--usdt); }
+  .price-token .dot-usdc { width:8px;height:8px;border-radius:50%;background:var(--usdc); }
+  .price-val { font-family: 'DM Mono', monospace; font-size: 17px; font-weight: 500; }
+  .price-change { font-family: 'DM Mono', monospace; font-size: 10px; margin-top: 2px; }
+  .price-change.up { color: var(--accent); }
+  .price-change.dn { color: var(--warn); }
+
+  /* ── ACTIONS ── */
+  .actions {
+    display: flex; justify-content: space-around; padding: 0 20px 24px;
+  }
+  .action-btn { display: flex; flex-direction: column; align-items: center; gap: 8px; cursor: pointer; }
+  .action-icon {
+    width: 50px; height: 50px; border-radius: 16px;
+    background: var(--surface2); border: 1px solid var(--border);
+    display: flex; align-items: center; justify-content: center; font-size: 20px;
+  }
+  .action-label { font-size: 10px; color: var(--muted); letter-spacing: 0.05em; text-transform: uppercase; font-family: 'DM Mono', monospace; }
+
+  /* ── ASSETS ── */
+  .section-header {
+    display: flex; justify-content: space-between; align-items: center;
+    padding: 0 20px 12px;
+  }
+  .section-title { font-size: 11px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.12em; color: var(--muted); }
+  .section-link { font-size: 11px; color: var(--accent); font-family: 'DM Mono', monospace; }
+
+  .asset-list { padding: 0 16px; display: flex; flex-direction: column; gap: 8px; margin-bottom: 24px; }
+  .asset-item {
+    background: var(--surface); border: 1px solid var(--border);
+    border-radius: 16px; padding: 14px 16px;
+    display: flex; align-items: center; gap: 12px;
+  }
+  .asset-icon {
+    width: 40px; height: 40px; border-radius: 50%;
+    display: flex; align-items: center; justify-content: center;
+    font-size: 15px; font-weight: 800; flex-shrink: 0;
+  }
+  .asset-icon.usdt { background: rgba(38,161,123,0.15); color: var(--usdt); border: 1px solid rgba(38,161,123,0.3); }
+  .asset-icon.usdc { background: rgba(39,117,202,0.15); color: var(--usdc); border: 1px solid rgba(39,117,202,0.3); }
+  .asset-info { flex: 1; }
+  .asset-name { font-size: 14px; font-weight: 700; margin-bottom: 2px; }
+  .asset-network { font-size: 10px; color: var(--muted); font-family: 'DM Mono', monospace; }
+  .asset-amounts { text-align: right; }
+  .asset-usd { font-size: 14px; font-weight: 700; }
+  .asset-crypto { font-size: 10px; color: var(--muted); font-family: 'DM Mono', monospace; margin-top: 2px; }
+
+  .badge {
+    display: inline-block;
+    background: rgba(0,229,160,0.1); border: 1px solid rgba(0,229,160,0.3);
+    color: var(--accent); font-size: 8px; font-family: 'DM Mono', monospace;
+    padding: 2px 5px; border-radius: 4px; text-transform: uppercase;
+    letter-spacing: 0.08em; margin-left: 5px; vertical-align: middle;
+  }
+  .badge.usdc-b { background:rgba(39,117,202,0.12); border-color:rgba(39,117,202,0.3); color:#2775ca; }
+  .badge.pending { background: rgba(255,107,53,0.1); border-color: rgba(255,107,53,0.3); color: var(--warn); }
+
+  /* ── LIVE FEED ── */
+  .tx-list { padding: 0 16px; display: flex; flex-direction: column; gap: 6px; }
+  .tx-item {
+    background: var(--surface); border: 1px solid var(--border);
+    border-radius: 14px; padding: 12px 14px;
+    display: flex; align-items: center; gap: 10px;
+    transition: border-color 0.3s;
+  }
+  .tx-item.new-tx {
+    border-color: rgba(0,229,160,0.5);
+    animation: flashIn 0.6s ease;
+  }
+  @keyframes flashIn {
+    0% { background: rgba(0,229,160,0.08); transform: translateY(-4px); opacity:0; }
+    100% { background: var(--surface); transform: translateY(0); opacity:1; }
+  }
+  .tx-icon {
+    width: 34px; height: 34px; border-radius: 10px;
+    display: flex; align-items: center; justify-content: center;
+    font-size: 14px; flex-shrink: 0;
+  }
+  .tx-icon.in { background: rgba(0,229,160,0.1); }
+  .tx-icon.out { background: rgba(255,107,53,0.1); }
+  .tx-icon.swap { background: rgba(41,121,255,0.1); }
+  .tx-info { flex: 1; min-width: 0; }
+  .tx-title { font-size: 12px; font-weight: 600; margin-bottom: 2px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+  .tx-meta { font-size: 9px; color: var(--muted); font-family: 'DM Mono', monospace; }
+  .tx-amount { text-align: right; flex-shrink: 0; }
+  .tx-val { font-size: 12px; font-weight: 700; font-family: 'DM Mono', monospace; }
+  .tx-val.pos { color: var(--accent); }
+  .tx-val.neg { color: var(--warn); }
+  .tx-sub { font-size: 9px; color: var(--muted); font-family: 'DM Mono', monospace; margin-top: 1px; }
+
+  /* ── BOTTOM NAV ── */
+  .bottom-nav {
+    position: fixed; bottom: 0; left: 0; right: 0;
+    background: rgba(10,11,15,0.96);
+    backdrop-filter: blur(20px);
+    border-top: 1px solid var(--border);
+    display: flex; justify-content: space-around; align-items: center;
+    padding: 12px 0 24px;
+    z-index: 100;
+  }
+  .nav-item {
+    display: flex; flex-direction: column; align-items: center; gap: 4px;
+    cursor: pointer; opacity: 0.35; transition: opacity 0.2s;
+  }
+  .nav-item.active { opacity: 1; }
+  .nav-label { font-size: 10px; font-family: 'DM Mono', monospace; }
+  .nav-item.active .nav-label { color: var(--accent); }
+
+  /* ── CLOCK ── */
+  .clock-bar {
+    display: flex; justify-content: space-between; align-items: center;
+    padding: 6px 20px 0;
+    font-family: 'DM Mono', monospace; font-size: 10px; color: var(--muted);
+  }
+
+  /* ── ANIMATIONS ── */
+  @keyframes fadeUp {
+    from { opacity:0; transform: translateY(12px); }
+    to { opacity:1; transform: translateY(0); }
+  }
+  .hero-card { animation: fadeUp 0.4s ease both; }
+  .price-row { animation: fadeUp 0.4s 0.08s ease both; opacity:0; animation-fill-mode:forwards; }
+  .actions { animation: fadeUp 0.4s 0.14s ease both; opacity:0; animation-fill-mode:forwards; }
+  .asset-list { animation: fadeUp 0.4s 0.2s ease both; opacity:0; animation-fill-mode:forwards; }
+  .tx-list { animation: fadeUp 0.4s 0.26s ease both; opacity:0; animation-fill-mode:forwards; }
+
+  /* number flash */
+  .flash { animation: numFlash 0.4s ease; }
+  @keyframes numFlash {
+    0% { color: var(--accent); }
+    100% { color: inherit; }
+  }
+</style>
 </head>
 <body>
 
-<header>
-    <img src="logo.png" alt="VISTA Logo" class="logo">
-    <h1>VISTA — Vision Intelligence Security & Technology Analysis</h1>
-</header>
+<!-- TICKER -->
+<div class="ticker-wrap">
+  <div class="ticker-track" id="ticker">
+    <span class="ticker-item">USDT/USD <span class="up" id="t1">$1.0001</span></span>
+    <span class="ticker-item">USDC/USD <span class="up" id="t2">$1.0000</span></span>
+    <span class="ticker-item">BTC/USDT <span class="up">$84,210.50</span></span>
+    <span class="ticker-item">ETH/USDT <span class="dn">$2,194.30</span></span>
+    <span class="ticker-item">TRX/USDT <span class="up">$0.2341</span></span>
+    <span class="ticker-item">GAS ·ERC20 <span class="dn">12 gwei</span></span>
+    <span class="ticker-item">USDT/USD <span class="up" id="t1b">$1.0001</span></span>
+    <span class="ticker-item">USDC/USD <span class="up" id="t2b">$1.0000</span></span>
+    <span class="ticker-item">BTC/USDT <span class="up">$84,210.50</span></span>
+    <span class="ticker-item">ETH/USDT <span class="dn">$2,194.30</span></span>
+    <span class="ticker-item">TRX/USDT <span class="up">$0.2341</span></span>
+    <span class="ticker-item">GAS ·ERC20 <span class="dn">12 gwei</span></span>
+  </div>
+</div>
 
-<main>
-    <section class="form-section">
-        <h2>Criminal Background Information Request</h2>
-        <form id="requestForm">
-            <label for="case-number">Case Number:</label>
-            <input type="text" id="case-number" name="case-number" required>
+<!-- CLOCK BAR -->
+<div class="clock-bar">
+  <span id="live-clock">--:--:--</span>
+  <span>UTC-5 · Panama</span>
+</div>
 
-            <label for="request-type">Request Type:</label>
-            <select id="request-type" name="request-type">
-                <option value="criminal-background">Criminal Background</option>
-                <option value="financial-records">Financial Records</option>
-                <option value="other">Other</option>
-            </select>
+<!-- HEADER -->
+<div class="header">
+  <div class="logo">Nex<span>Pay</span></div>
+  <div class="header-right">
+    <div class="live-dot"><div class="dot"></div> LIVE</div>
+    <div class="avatar">SR</div>
+  </div>
+</div>
 
-            <label for="priority">Priority:</label>
-            <select id="priority" name="priority">
-                <option value="high">High</option>
-                <option value="medium">Medium</option>
-                <option value="low">Low</option>
-            </select>
+<!-- HERO CARD (STATIC) -->
+<div class="hero-card">
+  <div class="card-label">Total Portfolio Value</div>
+  <div class="card-balance">$48,197<span class="cents">.82</span></div>
+  <div class="card-change">↑ +$1,240.00 &nbsp;(+2.64%) this month</div>
+  <div class="card-address">
+    <div class="addr-row"><span class="lbl">TRC20</span> TXf9zKm4Rp2eLvnQs8dWJoU1bY3cA7qR8</div>
+    <div class="addr-row"><span class="lbl">ERC20</span> 0x4a2F9c1dE83bA7f245C039d1e8A6B2f91c</div>
+  </div>
+</div>
 
-            <label for="subject-name">Subject Name:</label>
-            <input type="text" id="subject-name" name="subject-name" required>
+<!-- LIVE PRICE ROW -->
+<div class="price-row">
+  <div class="price-card">
+    <div class="price-token"><div class="dot-usdt"></div> USDT</div>
+    <div class="price-val" id="usdt-price">$1.0001</div>
+    <div class="price-change up" id="usdt-chg">+0.01%</div>
+  </div>
+  <div class="price-card">
+    <div class="price-token"><div class="dot-usdc"></div> USDC</div>
+    <div class="price-val" id="usdc-price">$1.0000</div>
+    <div class="price-change up" id="usdc-chg">+0.00%</div>
+  </div>
+  <div class="price-card">
+    <div class="price-token">⛽ GAS</div>
+    <div class="price-val" id="gas-price">12 gwei</div>
+    <div class="price-change dn" id="gas-chg">ERC20</div>
+  </div>
+</div>
 
-            <label for="subject-id">Subject ID / Passport:</label>
-            <input type="text" id="subject-id" name="subject-id" required>
+<!-- ACTIONS -->
+<div class="actions">
+  <div class="action-btn"><div class="action-icon">↑</div><div class="action-label">Send</div></div>
+  <div class="action-btn"><div class="action-icon">↓</div><div class="action-label">Receive</div></div>
+  <div class="action-btn"><div class="action-icon">⇄</div><div class="action-label">Swap</div></div>
+  <div class="action-btn"><div class="action-icon">⋯</div><div class="action-label">More</div></div>
+</div>
 
-            <label for="justification">Legal/Operational Justification:</label>
-            <textarea id="justification" name="justification" rows="4" required></textarea>
+<!-- ASSETS (STATIC) -->
+<div class="section-header">
+  <div class="section-title">Assets</div>
+  <div class="section-link">Manage →</div>
+</div>
+<div class="asset-list">
+  <div class="asset-item">
+    <div class="asset-icon usdt">₮</div>
+    <div class="asset-info">
+      <div class="asset-name">Tether USD <span class="badge">TRC20</span></div>
+      <div class="asset-network">TRON Network · TRX</div>
+    </div>
+    <div class="asset-amounts">
+      <div class="asset-usd">$32,450.00</div>
+      <div class="asset-crypto">32,450.00 USDT</div>
+    </div>
+  </div>
+  <div class="asset-item">
+    <div class="asset-icon usdc">$</div>
+    <div class="asset-info">
+      <div class="asset-name">USD Coin <span class="badge usdc-b">ERC20</span></div>
+      <div class="asset-network">Ethereum Network · ETH</div>
+    </div>
+    <div class="asset-amounts">
+      <div class="asset-usd">$15,747.82</div>
+      <div class="asset-crypto">15,747.82 USDC</div>
+    </div>
+  </div>
+</div>
 
-            <button type="submit">Submit Request</button>
-        </form>
-    </section>
-</main>
+<!-- LIVE TRANSACTION FEED -->
+<div class="section-header">
+  <div class="section-title">Live Activity</div>
+  <div class="live-dot"><div class="dot"></div></div>
+</div>
+<div class="tx-list" id="tx-feed">
+  <div class="tx-item">
+    <div class="tx-icon in">📥</div>
+    <div class="tx-info">
+      <div class="tx-title">Received USDT <span class="badge">Confirmed</span></div>
+      <div class="tx-meta">From TKw3…9dLp · Feb 27, 14:32</div>
+    </div>
+    <div class="tx-amount">
+      <div class="tx-val pos">+5,000.00</div>
+      <div class="tx-sub">USDT · TRC20</div>
+    </div>
+  </div>
+  <div class="tx-item">
+    <div class="tx-icon out">📤</div>
+    <div class="tx-info">
+      <div class="tx-title">Sent USDC <span class="badge">Confirmed</span></div>
+      <div class="tx-meta">To 0x7f2…a43d · Feb 26, 09:15</div>
+    </div>
+    <div class="tx-amount">
+      <div class="tx-val neg">-3,200.00</div>
+      <div class="tx-sub">USDC · ERC20</div>
+    </div>
+  </div>
+  <div class="tx-item">
+    <div class="tx-icon swap">🔄</div>
+    <div class="tx-info">
+      <div class="tx-title">Swap USDT → USDC</div>
+      <div class="tx-meta">Via 1inch · Feb 24, 17:50</div>
+    </div>
+    <div class="tx-amount">
+      <div class="tx-val" style="color:#2979ff;">4,000 ⇄</div>
+      <div class="tx-sub">Fee: 0.30%</div>
+    </div>
+  </div>
+  <div class="tx-item">
+    <div class="tx-icon in">📥</div>
+    <div class="tx-info">
+      <div class="tx-title">Received USDC <span class="badge">Confirmed</span></div>
+      <div class="tx-meta">From 0x1d9…c82a · Feb 22, 11:04</div>
+    </div>
+    <div class="tx-amount">
+      <div class="tx-val pos">+8,500.00</div>
+      <div class="tx-sub">USDC · ERC20</div>
+    </div>
+  </div>
+  <div class="tx-item">
+    <div class="tx-icon out">📤</div>
+    <div class="tx-info">
+      <div class="tx-title">Sent USDT <span class="badge pending">Pending</span></div>
+      <div class="tx-meta">To TRmQ…7kXp · Feb 20, 08:47</div>
+    </div>
+    <div class="tx-amount">
+      <div class="tx-val neg">-1,250.00</div>
+      <div class="tx-sub">USDT · TRC20</div>
+    </div>
+  </div>
+  <div class="tx-item">
+    <div class="tx-icon in">📥</div>
+    <div class="tx-info">
+      <div class="tx-title">Received USDT <span class="badge">Confirmed</span></div>
+      <div class="tx-meta">From TAqL…3fWz · Feb 18, 16:20</div>
+    </div>
+    <div class="tx-amount">
+      <div class="tx-val pos">+10,000.00</div>
+      <div class="tx-sub">USDT · TRC20</div>
+    </div>
+  </div>
+</div>
 
-<script src="script.js"></script>
+<!-- BOTTOM NAV -->
+<div class="bottom-nav">
+  <div class="nav-item active">
+    <div style="font-size:20px;">⬛</div>
+    <div class="nav-label">Wallet</div>
+  </div>
+  <div class="nav-item">
+    <div style="font-size:20px;">📈</div>
+    <div class="nav-label">Markets</div>
+  </div>
+  <div class="nav-item">
+    <div style="font-size:20px;">⇄</div>
+    <div class="nav-label">Swap</div>
+  </div>
+  <div class="nav-item">
+    <div style="font-size:20px;">⚙︎</div>
+    <div class="nav-label">Settings</div>
+  </div>
+</div>
+
+<script>
+// ── RELOJ + PAÍS DINÁMICO ──
+const tzData = {
+  // Panama
+  'America/Panama':           { label: 'Panama',      offset: -5 },
+  // Mexico
+  'America/Mexico_City':      { label: 'México',      offset: -6 },
+  'America/Monterrey':        { label: 'México',      offset: -6 },
+  'America/Merida':           { label: 'México',      offset: -6 },
+  'America/Mazatlan':         { label: 'México',      offset: -7 },
+  'America/Tijuana':          { label: 'México',      offset: -8 },
+  'America/Chihuahua':        { label: 'México',      offset: -7 },
+  // USA
+  'America/New_York':         { label: 'USA · EST',   offset: -5 },
+  'America/Chicago':          { label: 'USA · CST',   offset: -6 },
+  'America/Denver':           { label: 'USA · MST',   offset: -7 },
+  'America/Los_Angeles':      { label: 'USA · PST',   offset: -8 },
+  'America/Phoenix':          { label: 'USA · MST',   offset: -7 },
+  'America/Anchorage':        { label: 'USA · AKT',   offset: -9 },
+  'Pacific/Honolulu':         { label: 'USA · HST',   offset: -10 },
+  // Venezuela
+  'America/Caracas':          { label: 'Venezuela',   offset: -4 },
+  // Colombia
+  'America/Bogota':           { label: 'Colombia',    offset: -5 },
+  // Costa Rica
+  'America/Costa_Rica':       { label: 'Costa Rica',  offset: -6 },
+  // Europe
+  'Europe/Madrid':            { label: 'España',      offset: 1 },
+  'Europe/London':            { label: 'UK',          offset: 0 },
+};
+
+function getLocationInfo() {
+  try {
+    const tz = Intl.DateTimeFormat().resolvedOptions().timeZone;
+    if (tzData[tz]) return tzData[tz];
+    // fallback por prefijo
+    if (tz.startsWith('America/')) return { label: 'Americas', offset: -5 };
+    if (tz.startsWith('Europe/'))  return { label: 'Europe',   offset: 1 };
+    return { label: 'Panama', offset: -5 };
+  } catch(e) {
+    return { label: 'Panama', offset: -5 };
+  }
+}
+
+const locInfo = getLocationInfo();
+document.querySelector('.clock-bar span:last-child').textContent =
+  `UTC${locInfo.offset >= 0 ? '+' : ''}${locInfo.offset} · ${locInfo.label}`;
+
+function updateClock() {
+  const now = new Date();
+  const h = String(now.getHours()).padStart(2,'0');
+  const m = String(now.getMinutes()).padStart(2,'0');
+  const s = String(now.getSeconds()).padStart(2,'0');
+  document.getElementById('live-clock').textContent = `${h}:${m}:${s}`;
+}
+setInterval(updateClock, 1000);
+updateClock();
+
+// ── PRECIOS VIVOS (micro-variaciones) ──
+let usdtBase = 1.0001, usdcBase = 1.0000;
+function jitter(base, range) {
+  return (base + (Math.random() - 0.5) * range).toFixed(4);
+}
+function updatePrices() {
+  const usdt = parseFloat(jitter(usdtBase, 0.0004));
+  const usdc = parseFloat(jitter(usdcBase, 0.0003));
+  const gas = Math.floor(11 + Math.random() * 4);
+
+  const usdtEl = document.getElementById('usdt-price');
+  const usdcEl = document.getElementById('usdc-price');
+  const gasEl  = document.getElementById('gas-price');
+
+  usdtEl.textContent = `$${usdt.toFixed(4)}`;
+  usdcEl.textContent = `$${usdc.toFixed(4)}`;
+  gasEl.textContent  = `${gas} gwei`;
+
+  const usdtChg = ((usdt - 1) * 100).toFixed(3);
+  const usdcChg = ((usdc - 1) * 100).toFixed(3);
+  const uChgEl = document.getElementById('usdt-chg');
+  const cChgEl = document.getElementById('usdc-chg');
+
+  uChgEl.textContent = `${usdt >= 1 ? '+' : ''}${usdtChg}%`;
+  uChgEl.className = `price-change ${usdt >= 1 ? 'up' : 'dn'}`;
+  cChgEl.textContent = `${usdc >= 1 ? '+' : ''}${usdcChg}%`;
+  cChgEl.className = `price-change ${usdc >= 1 ? 'up' : 'dn'}`;
+
+  // ticker sync
+  ['t1','t1b'].forEach(id => document.getElementById(id).textContent = `$${usdt.toFixed(4)}`);
+  ['t2','t2b'].forEach(id => document.getElementById(id).textContent = `$${usdc.toFixed(4)}`);
+}
+setInterval(updatePrices, 3500);
+
+// ── LIVE TRANSACTION FEED ──
+const walletAddresses = [
+  'TKw3…9dLp','TAqL…3fWz','TRmQ…7kXp','TMnp…2sRq','TBxL…8vNk',
+  '0x7f2…a43d','0x1d9…c82a','0x2c7…d15b','0x4aF…1e9c','0x8bD…f32a'
+];
+const txTypes = [
+  { type:'in',  icon:'📥', label:'Received USDT', net:'USDT · TRC20', sign:'+', color:'pos', addrPfx:'From' },
+  { type:'out', icon:'📤', label:'Sent USDT',     net:'USDT · TRC20', sign:'-', color:'neg', addrPfx:'To' },
+  { type:'in',  icon:'📥', label:'Received USDC', net:'USDC · ERC20', sign:'+', color:'pos', addrPfx:'From' },
+  { type:'out', icon:'📤', label:'Sent USDC',     net:'USDC · ERC20', sign:'-', color:'neg', addrPfx:'To' },
+];
+
+function randAddr(type) {
+  return walletAddresses[Math.floor(Math.random() * walletAddresses.length)];
+}
+function randAmount() {
+  const amounts = [500, 750, 1200, 1500, 2000, 2500, 3000, 4000];
+  return amounts[Math.floor(Math.random() * amounts.length)];
+}
+function nowStr() {
+  const now = new Date();
+  const panama = new Date(now.getTime() - 5*3600000);
+  const h = String(panama.getUTCHours()).padStart(2,'0');
+  const m = String(panama.getUTCMinutes()).padStart(2,'0');
+  const months = ['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'];
+  return `${months[panama.getUTCMonth()]} ${panama.getUTCDate()}, ${h}:${m}`;
+}
+
+function addLiveTx() {
+  const t = txTypes[Math.floor(Math.random() * txTypes.length)];
+  const addr = randAddr(t.type);
+  const amount = randAmount();
+  const feed = document.getElementById('tx-feed');
+
+  const div = document.createElement('div');
+  div.className = 'tx-item new-tx';
+  div.innerHTML = `
+    <div class="tx-icon ${t.type}">${t.icon}</div>
+    <div class="tx-info">
+      <div class="tx-title">${t.label} <span class="badge">Confirmed</span></div>
+      <div class="tx-meta">${t.addrPfx} ${addr} · ${nowStr()}</div>
+    </div>
+    <div class="tx-amount">
+      <div class="tx-val ${t.color}">${t.sign}${amount.toLocaleString()}.00</div>
+      <div class="tx-sub">${t.net}</div>
+    </div>
+  `;
+  feed.insertBefore(div, feed.firstChild);
+
+  // mantener máximo 10 items
+  while (feed.children.length > 10) {
+    feed.removeChild(feed.lastChild);
+  }
+
+  // quitar clase new-tx después de la animación
+  setTimeout(() => div.classList.remove('new-tx'), 800);
+}
+
+// nueva tx cada 18-35 segundos
+function scheduleTx() {
+  const delay = 18000 + Math.random() * 17000;
+  setTimeout(() => {
+    addLiveTx();
+    scheduleTx();
+  }, delay);
+}
+scheduleTx();
+</script>
 </body>
 </html>
